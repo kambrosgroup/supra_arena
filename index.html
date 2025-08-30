@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Arena - Supra Web3 Battle Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>⚔️ Oracle Arena</h1>
+                    <span class="tagline">Powered by Supra</span>
+                </div>
+                <div class="header-info">
+                    <div class="network-status">
+                        <span class="status-dot active"></span>
+                        <span>Supra Mainnet</span>
+                    </div>
+                    <button id="walletButton" class="btn btn--primary">
+                        Connect StarKey Wallet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Battle Arena Section -->
+            <section class="battle-arena">
+                <div class="arena-header">
+                    <h2>Battle Arena</h2>
+                    <div class="provably-fair-badge">
+                        <span class="badge-icon">🛡️</span>
+                        <span>Provably Fair</span>
+                        <button id="proofModal" class="proof-link">View Proofs</button>
+                    </div>
+                </div>
+
+                <div class="arena-content">
+                    <!-- Player 1 -->
+                    <div class="player-section player-1">
+                        <div class="character-avatar">
+                            <div class="character-icon">⚡</div>
+                            <div class="character-name">Oracle Warrior</div>
+                        </div>
+                        <div class="health-bar">
+                            <div class="health-label">Health: <span id="player1Health">100</span>/100</div>
+                            <div class="health-progress">
+                                <div id="player1HealthBar" class="health-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="player-stats">
+                            <div class="stat">⚔️ Attack: <span id="player1Attack">25</span></div>
+                            <div class="stat">🛡️ Defense: <span id="player1Defense">15</span></div>
+                        </div>
+                        <div class="stake-info">
+                            <div class="staked-amount">Staked: <span id="player1Stake">0.1 ETH</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Battle Controls -->
+                    <div class="battle-controls">
+                        <div class="action-buttons">
+                            <button id="attackBtn" class="action-btn attack-btn">
+                                <span class="btn-icon">⚔️</span>
+                                <span>Attack</span>
+                            </button>
+                            <button id="defendBtn" class="action-btn defend-btn">
+                                <span class="btn-icon">🛡️</span>
+                                <span>Defend</span>
+                            </button>
+                            <button id="specialBtn" class="action-btn special-btn">
+                                <span class="btn-icon">✨</span>
+                                <span>Special</span>
+                            </button>
+                        </div>
+                        
+                        <div class="turn-indicator">
+                            <div id="currentTurn" class="turn-text">Your Turn</div>
+                            <div class="turn-timer">
+                                <span id="turnTimer">30s</span>
+                            </div>
+                        </div>
+
+                        <div class="stake-controls">
+                            <div class="stake-selector">
+                                <label for="stakeAmount">Stake Amount:</label>
+                                <select id="stakeAmount" class="form-control">
+                                    <option value="0.01">0.01 ETH</option>
+                                    <option value="0.05">0.05 ETH</option>
+                                    <option value="0.1" selected>0.1 ETH</option>
+                                    <option value="0.5">0.5 ETH</option>
+                                    <option value="1">1 ETH</option>
+                                </select>
+                            </div>
+                            <button id="joinBattleBtn" class="btn btn--primary btn--full-width">
+                                Join Battle Queue
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Player 2 -->
+                    <div class="player-section player-2">
+                        <div class="character-avatar">
+                            <div class="character-icon">🔮</div>
+                            <div class="character-name">Data Mage</div>
+                        </div>
+                        <div class="health-bar">
+                            <div class="health-label">Health: <span id="player2Health">100</span>/100</div>
+                            <div class="health-progress">
+                                <div id="player2HealthBar" class="health-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="player-stats">
+                            <div class="stat">⚔️ Attack: <span id="player2Attack">20</span></div>
+                            <div class="stat">🛡️ Defense: <span id="player2Defense">20</span></div>
+                        </div>
+                        <div class="stake-info">
+                            <div class="staked-amount">Staked: <span id="player2Stake">0.1 ETH</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Oracle Price Feeds Section -->
+            <section class="oracle-section">
+                <div class="section-header">
+                    <h3>🔮 Oracle Price Feeds</h3>
+                    <div class="last-update">Last Update: <span id="lastUpdate">Just now</span></div>
+                </div>
+                
+                <div class="price-feeds">
+                    <div class="price-card eth-card">
+                        <div class="price-header">
+                            <span class="crypto-icon">Ξ</span>
+                            <span class="trading-pair">ETH/USD</span>
+                        </div>
+                        <div class="price-data">
+                            <div class="current-price">$<span id="ethPrice">3245.67</span></div>
+                            <div class="price-change positive">
+                                <span id="ethChange">+1.2%</span>
+                                <span class="change-label">Last Block</span>
+                            </div>
+                        </div>
+                        <div class="multiplier-effect">
+                            <span>Attack Multiplier: <span id="ethMultiplier" class="multiplier-value">+20%</span></span>
+                        </div>
+                    </div>
+
+                    <div class="price-card btc-card">
+                        <div class="price-header">
+                            <span class="crypto-icon">₿</span>
+                            <span class="trading-pair">BTC/USD</span>
+                        </div>
+                        <div class="price-data">
+                            <div class="current-price">$<span id="btcPrice">96913.07</span></div>
+                            <div class="price-change negative">
+                                <span id="btcChange">-0.8%</span>
+                                <span class="change-label">Last Block</span>
+                            </div>
+                        </div>
+                        <div class="multiplier-effect">
+                            <span>Defense Bonus: <span id="btcMultiplier" class="multiplier-value">+8%</span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Battle Log Section -->
+            <section class="battle-log-section">
+                <div class="section-header">
+                    <h3>⚡ Battle Log</h3>
+                    <button id="clearLog" class="btn btn--secondary btn--sm">Clear</button>
+                </div>
+                <div id="battleLog" class="battle-log">
+                    <div class="log-entry">
+                        <span class="log-time">00:30</span>
+                        <span class="log-action">Battle initialized - Waiting for opponent...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VRF Loot System -->
+            <section class="vrf-section">
+                <div class="section-header">
+                    <h3>🎰 VRF Loot System</h3>
+                    <div class="vrf-info">Powered by Supra VRF</div>
+                </div>
+                
+                <div class="loot-system">
+                    <div class="mystery-box">
+                        <div class="box-animation">
+                            <div class="box-icon">📦</div>
+                            <div class="sparkles">✨</div>
+                        </div>
+                        <div class="box-info">
+                            <div class="box-title">Mystery Loot Box</div>
+                            <div class="box-cost">Cost: 10 SUPRA</div>
+                            <div class="box-probabilities">
+                                <div class="prob-item">🗡️ Rare Weapon (5%)</div>
+                                <div class="prob-item">💊 Health Potion (20%)</div>
+                                <div class="prob-item">⚡ Attack Boost (15%)</div>
+                            </div>
+                        </div>
+                        <button id="openLootBox" class="btn btn--primary">Open Loot Box</button>
+                    </div>
+
+                    <div class="vrf-proofs">
+                        <div class="proof-header">Provable Randomness</div>
+                        <div class="proof-data">
+                            <div class="proof-item">
+                                <span class="proof-label">VRF Nonce:</span>
+                                <span id="vrfNonce" class="proof-value">12345</span>
+                            </div>
+                            <div class="proof-item">
+                                <span class="proof-label">Random Seed:</span>
+                                <span id="randomSeed" class="proof-value">0x7a8f...</span>
+                            </div>
+                            <div class="proof-item">
+                                <span class="proof-label">Verification:</span>
+                                <a href="#" id="vrfProof" class="proof-link" target="_blank">View On-Chain</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tournament Automation -->
+            <section class="automation-section">
+                <div class="section-header">
+                    <h3>🏆 Automated Tournaments</h3>
+                    <div class="automation-status">
+                        <span class="status-dot active"></span>
+                        <span>Oracle Automation Active</span>
+                    </div>
+                </div>
+                
+                <div class="tournament-info">
+                    <div class="tournament-card">
+                        <div class="tournament-header">
+                            <h4>Daily Championship</h4>
+                            <div class="tournament-status">Scheduled</div>
+                        </div>
+                        <div class="tournament-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Prize Pool:</span>
+                                <span class="detail-value">1000 SUPRA</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Next Tournament:</span>
+                                <span class="detail-value">
+                                    <span id="tournamentCountdown">23h 52m</span>
+                                </span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Participants:</span>
+                                <span class="detail-value">247 players</span>
+                            </div>
+                        </div>
+                        <button class="btn btn--secondary btn--full-width">Register for Tournament</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Wallet Info Modal -->
+    <div id="walletModal" class="modal hidden">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Wallet Information</h3>
+                <button class="modal-close" id="closeWalletModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="wallet-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span id="walletAddress" class="info-value">Not connected</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">SUPRA Balance:</span>
+                        <span id="supraBalance" class="info-value">0.00</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">ETH Balance:</span>
+                        <span id="ethBalance" class="info-value">0.00</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Network:</span>
+                        <span class="info-value">Supra Mainnet</span>
+                    </div>
+                </div>
+                <div class="wallet-actions">
+                    <button id="disconnectWallet" class="btn btn--secondary btn--full-width">
+                        Disconnect Wallet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proof Modal -->
+    <div id="proofModalDialog" class="modal hidden">
+        <div class="modal-overlay" id="proofOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Provably Fair Proofs</h3>
+                <button class="modal-close" id="closeProofModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="proof-section">
+                    <h4>VRF Randomness Proofs</h4>
+                    <div class="proof-links">
+                        <a href="https://explorer.supra.com/vrf/12345" target="_blank" class="proof-link">
+                            VRF Request #12345 - View on Explorer
+                        </a>
+                        <a href="https://explorer.supra.com/vrf/12346" target="_blank" class="proof-link">
+                            VRF Request #12346 - View on Explorer
+                        </a>
+                    </div>
+                </div>
+                <div class="proof-section">
+                    <h4>Oracle Automation Receipts</h4>
+                    <div class="proof-links">
+                        <a href="https://explorer.supra.com/automation/task1" target="_blank" class="proof-link">
+                            Daily Tournament Task - View Receipt
+                        </a>
+                        <a href="https://explorer.supra.com/automation/task2" target="_blank" class="proof-link">
+                            Price Feed Update Task - View Receipt
+                        </a>
+                    </div>
+                </div>
+                <div class="proof-section">
+                    <h4>Smart Contract Source</h4>
+                    <div class="proof-links">
+                        <a href="https://explorer.supra.com/contract/arena" target="_blank" class="proof-link">
+                            Oracle Arena Contract - Verified Source
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+[package]
+name = "oracle_arena"
+version = "1.0.0"
+authors = ["Oracle Arena Team"]
+edition = "2024.beta"
+
+[addresses]
+oracle_arena = "_"
+
+[dependencies.SupraFramework]
+git = "https://github.com/Entropy-Foundation/supra-framework.git"
+subdir = "supra-framework"
+rev = "testnet"
+
+[dependencies.SupraVrf]
+git = "https://github.com/Entropy-Foundation/vrf-interface"
+subdir = "supra/testnet"
+rev = "master"
+
+[dev-dependencies]

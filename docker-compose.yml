@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  oracle-arena:
+    build: .
+    container_name: oracle-arena-production
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - NEXT_PUBLIC_SUPRA_RPC_URL=${NEXT_PUBLIC_SUPRA_RPC_URL}
+      - NEXT_PUBLIC_SUPRA_CHAIN_ID=${NEXT_PUBLIC_SUPRA_CHAIN_ID}
+      - NEXT_PUBLIC_ORACLE_ARENA_CONTRACT=${NEXT_PUBLIC_ORACLE_ARENA_CONTRACT}
+      - NEXT_PUBLIC_VRF_CONTRACT=${NEXT_PUBLIC_VRF_CONTRACT}
+      - NEXT_PUBLIC_BRIDGE_CONTRACT=${NEXT_PUBLIC_BRIDGE_CONTRACT}
+      - SUPRA_ORACLE_API_KEY=${SUPRA_ORACLE_API_KEY}
+      - NEXT_PUBLIC_ORACLE_API_KEY=${NEXT_PUBLIC_ORACLE_API_KEY}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - oracle-arena-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  nginx:
+    image: nginx:alpine
+    container_name: oracle-arena-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - oracle-arena
+    networks:
+      - oracle-arena-network
+
+networks:
+  oracle-arena-network:
+    driver: bridge
+
+volumes:
+  logs:
